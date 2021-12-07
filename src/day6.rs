@@ -1,5 +1,6 @@
 use std::io;
 use std::str::FromStr;
+use aoc21::get_input_csv;
 
 type State = [usize; 9];
 
@@ -11,11 +12,8 @@ fn simulate(start_state: State, days: usize) -> State {
 fn main() {
     let initial_state = {
         let mut initial_state: State = Default::default();
-        let mut line = String::new();
-        io::stdin().read_line(&mut line).unwrap();
-        line.trim()
-            .split(',')
-            .map(|d| usize::from_str(d).unwrap())
+        get_input_csv::<usize>().unwrap()
+            .into_iter()
             .for_each(|d| initial_state[d] += 1);
         initial_state
     };

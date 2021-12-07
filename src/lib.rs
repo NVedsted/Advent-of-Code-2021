@@ -12,3 +12,13 @@ pub fn get_input_list<T: FromStr>() -> Result<Vec<T>, T::Err> {
         .map(|s| T::from_str(&s))
         .collect::<Result<Vec<_>, _>>()
 }
+
+pub fn get_input_csv<T: FromStr>() -> Result<Vec<T>, T::Err> {
+    let mut line = String::new();
+    io::stdin().read_line(&mut line).unwrap();
+
+    line.split(',')
+        .filter(|s| s.trim().len() > 0)
+        .map(|s| T::from_str(s.trim()))
+        .collect::<Result<Vec<_>, _>>()
+}
