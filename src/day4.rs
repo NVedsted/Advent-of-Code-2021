@@ -1,6 +1,5 @@
-use std::io;
-use std::io::Read;
 use std::str::FromStr;
+use aoc21::day;
 
 #[derive(Debug)]
 struct Board {
@@ -50,10 +49,8 @@ impl Board {
     }
 }
 
-fn main() {
-    let mut contents = String::new();
-    io::stdin().read_to_string(&mut contents).unwrap();
-    let (numbers, boards) = contents.split_once("\n\n").unwrap();
+fn solve(input: String) -> (u32, u32) {
+    let (numbers, boards) = input.split_once("\n\n").unwrap();
     let numbers = numbers.split(',')
         .map(|x| u32::from_str(x).unwrap())
         .collect::<Vec<_>>();
@@ -62,21 +59,25 @@ fn main() {
         .collect::<Vec<_>>();
 
     let mut first = true;
+    let mut part1 = 0;
+    let mut part2 = 0;
     for number in numbers {
         boards.iter_mut().for_each(|b| b.mark(number));
         if let Some(winner) = boards.iter().find(|b| b.bingo()) {
             if first {
-                let part1 = number * winner.sum();
-                println!("Part 1: {}", part1);
+                part1 = number * winner.sum();
                 first = false;
             }
 
             if boards.len() == 1 {
-                let part2 = number * winner.sum();
-                println!("Part 2: {}", part2);
+                part2 = number * winner.sum();
                 break;
             }
             boards.retain(|b| !b.bingo());
         }
     }
+
+    (part1, part2)
 }
+
+day!(4, solve);

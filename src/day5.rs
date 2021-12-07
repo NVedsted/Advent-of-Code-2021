@@ -1,7 +1,7 @@
 use std::cmp::{max, min};
 use std::collections::HashMap;
 use std::str::FromStr;
-use aoc21::get_input_list;
+use aoc21::{get_input_list, day};
 
 struct Line {
     x1: i32,
@@ -63,8 +63,8 @@ fn count_duplicates(points: impl Iterator<Item=(i32, i32)>) -> usize {
         .count()
 }
 
-fn main() {
-    let lines = get_input_list::<Line>().unwrap();
+fn solve(input: String) -> (usize, usize) {
+    let lines = get_input_list::<Line>(input).unwrap();
 
     let part1 = count_duplicates(lines.iter()
         .filter(|l| l.straight())
@@ -73,5 +73,7 @@ fn main() {
     let part2 = count_duplicates(lines.iter()
         .flat_map(|l| l.points(true)));
 
-    println!("Part 1: {}\nPart 2: {}", part1, part2);
+    (part1, part2)
 }
+
+day!(5, solve);

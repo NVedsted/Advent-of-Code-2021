@@ -1,4 +1,4 @@
-use aoc21::get_input_lines;
+use aoc21::day;
 
 fn count_bits(numbers: &[u32], bit: usize) -> (usize, usize) {
     let mask = 1u32 << bit;
@@ -7,8 +7,8 @@ fn count_bits(numbers: &[u32], bit: usize) -> (usize, usize) {
     (zeroes, ones)
 }
 
-fn main() {
-    let lines = get_input_lines();
+fn solve(input: String) -> (u32, u32) {
+    let lines = input.trim().split('\n').collect::<Vec<_>>();
     let bit_count = lines.first().unwrap().len();
     let numbers = lines.into_iter()
         .map(|l| u32::from_str_radix(&l, 2).unwrap())
@@ -70,5 +70,7 @@ fn main() {
         };
         oxygen * co2
     };
-    println!("Part 1: {}\nPart 2: {}", part1, part2);
+    (part1, part2)
 }
+
+day!(3, solve);

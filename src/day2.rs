@@ -1,5 +1,5 @@
 use std::str::FromStr;
-use aoc21::get_input_list;
+use aoc21::{get_input_list, day};
 use crate::Command::{Down, Forward, Up};
 
 enum Command {
@@ -25,8 +25,8 @@ impl FromStr for Command {
     }
 }
 
-fn main() {
-    let commands = get_input_list::<Command>().unwrap();
+fn solve(input: String) -> (i64, i64) {
+    let commands = get_input_list::<Command>(input).unwrap();
 
     let part1 = {
         let mut position = 0;
@@ -60,5 +60,7 @@ fn main() {
         position * depth
     };
 
-    println!("Part 1: {}\nPart 2: {}", part1, part2);
+    (part1, part2)
 }
+
+day!(2, solve);

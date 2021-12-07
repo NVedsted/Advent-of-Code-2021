@@ -1,7 +1,7 @@
-use aoc21::get_input_csv;
+use aoc21::{get_input_csv, day};
 
-fn main() {
-    let mut positions = get_input_csv::<i32>().unwrap();
+fn solve(input: String) -> (i32, i32) {
+    let mut positions = get_input_csv::<i32>(input).unwrap();
     positions.sort();
 
     let median = positions[positions.len() / 2];
@@ -19,5 +19,7 @@ fn main() {
             .sum::<i32>())
         .min().unwrap();
 
-    println!("Part 1: {}\nPart 2: {}", part1, part2);
+    (part1, part2)
 }
+
+day!(7, solve);
