@@ -1,6 +1,7 @@
 use std::{fs, io};
 use std::io::Read;
 use std::str::FromStr;
+use std::time::Instant;
 
 pub fn get_input_list<T: FromStr>(input: String) -> Result<Vec<T>, T::Err> {
     input.trim().split('\n').into_iter()
@@ -32,7 +33,10 @@ pub fn day_run<A: ToString, B: ToString>(day: usize, solve: fn(String) -> (A, B)
     };
 
     let (part1, part2) = {
+        let start = Instant::now();
         let (part1, part2) = solve(input);
+        let elapsed = start.elapsed();
+        println!("Solve took {:?}", elapsed);
         (part1.to_string(), part2.to_string())
     };
     println!("Part 1: {}\nPart 2: {}", part1, part2);
