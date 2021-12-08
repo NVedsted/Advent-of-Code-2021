@@ -45,7 +45,7 @@ fn solve(input: String) -> (usize, usize) {
         })
         .collect::<Vec<_>>();
 
-    let unique_lengths = [DIGITS[1], DIGITS[4], DIGITS[7], DIGITS[8]].iter()
+    let unique_lengths = [1, 4, 7, 8].iter()
         .cloned().collect::<HashSet<_>>();
     let part1 = case_digits.iter()
         .flatten()
@@ -54,7 +54,6 @@ fn solve(input: String) -> (usize, usize) {
 
     let part2 = case_digits.into_iter()
         .map(|digits| digits.into_iter()
-            .map(segment_to_value)
             .fold(0, |acc, v| acc * 10 + v)
         )
         .sum::<usize>();
@@ -65,9 +64,9 @@ fn solve(input: String) -> (usize, usize) {
 fn get_digits(cycle: Vec<HashSet<char>>, digits: Vec<HashSet<char>>) -> Vec<usize> {
     let mapping = compute_mapping(cycle);
     digits.into_iter()
-        .map(|digit| digit.into_iter()
+        .map(|digit| segment_to_value(digit.into_iter()
             .map(|e| mapping.get(&e).unwrap())
-            .fold(0, |acc, e| acc | e)
+            .fold(0, |acc, e| acc | e))
         )
         .collect()
 }
