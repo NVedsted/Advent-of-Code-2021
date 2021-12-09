@@ -1,4 +1,6 @@
 use std::{fs, io};
+use std::collections::{HashSet, VecDeque};
+use std::hash::Hash;
 use std::io::Read;
 use std::str::FromStr;
 use std::time::Instant;
@@ -15,6 +17,24 @@ pub fn get_input_csv<T: FromStr>(input: String) -> Result<Vec<T>, T::Err> {
         .filter(|s| s.trim().len() > 0)
         .map(|s| T::from_str(s.trim()))
         .collect::<Result<Vec<_>, _>>()
+}
+
+pub fn breadth_first_search<T, F>(start: T, mut visit: F) -> HashSet<T>
+    where
+        T: Hash + Eq + Copy,
+        F: FnMut(T, &mut VecDeque<T>) {
+    let mut visited = HashSet::new();
+    let mut queue = VecDeque::new();
+    queue.push_back(start);
+    while let Some(e) = queue.pop_front() {
+        if visited.contains(&e) {
+            continue;
+        }
+        visited.insert(e);
+        visit(e, &mut queue);
+    }
+
+    visited
 }
 
 #[doc(hidden)]
