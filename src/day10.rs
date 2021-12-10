@@ -1,6 +1,6 @@
 use aoc21::day;
 
-fn end_to_start(c: char) -> char {
+fn get_start_from_end(c: char) -> char {
     match c {
         ')' => '(',
         ']' => '[',
@@ -10,7 +10,7 @@ fn end_to_start(c: char) -> char {
     }
 }
 
-fn error_value(c: char) -> usize {
+fn get_error_value(c: char) -> usize {
     match c {
         ')' => 3,
         ']' => 57,
@@ -20,7 +20,7 @@ fn error_value(c: char) -> usize {
     }
 }
 
-fn incomplete_value(c: char) -> usize {
+fn get_incomplete_value(c: char) -> usize {
     match c {
         '(' => 1,
         '[' => 2,
@@ -53,20 +53,20 @@ impl LineStatus {
 
 fn get_status(line: &str) -> LineStatus {
     let mut stack = vec![];
-    for char in line.chars() {
-        if ['(', '[', '{', '<'].contains(&char) {
-            stack.push(char);
+    for current in line.chars() {
+        if ['(', '[', '{', '<'].contains(&current) {
+            stack.push(current);
         } else {
             match stack.pop() {
-                Some(next_close) if next_close == end_to_start(char) => {}
-                _ => { return LineStatus::Corrupt(error_value(char)); }
+                Some(next_close) if next_close == get_start_from_end(current) => {}
+                _ => { return LineStatus::Corrupt(get_error_value(current)); }
             }
         }
     }
 
     let score = stack.into_iter()
         .rev()
-        .map(incomplete_value)
+        .map(get_incomplete_value)
         .fold(0, |acc, e| acc * 5 + e);
     LineStatus::Incomplete(score)
 }
