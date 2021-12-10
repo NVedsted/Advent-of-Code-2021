@@ -2,7 +2,7 @@ use aoc21::{get_input_csv, day};
 
 fn solve(input: String) -> (i32, i32) {
     let mut positions = get_input_csv::<i32>(input).unwrap();
-    positions.sort();
+    positions.sort_unstable();
 
     let median = positions[positions.len() / 2];
     let part1 = positions.iter().map(|x| (x - median).abs())

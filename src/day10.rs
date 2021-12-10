@@ -84,7 +84,7 @@ fn solve(input: String) -> (usize, usize) {
         let mut values = statuses.iter()
             .filter_map(LineStatus::get_incomplete)
             .collect::<Vec<_>>();
-        values.sort();
+        values.sort_unstable();
         values[values.len() / 2]
     };
 
