@@ -65,9 +65,8 @@ fn get_status(line: &str) -> LineStatus {
     }
 
     let score = stack.into_iter()
-        .rev()
         .map(get_incomplete_value)
-        .fold(0, |acc, e| acc * 5 + e);
+        .rfold(0, |acc, e| acc * 5 + e);
     LineStatus::Incomplete(score)
 }
 
@@ -84,8 +83,8 @@ fn solve(input: String) -> (usize, usize) {
         let mut values = statuses.iter()
             .filter_map(LineStatus::get_incomplete)
             .collect::<Vec<_>>();
-        values.sort_unstable();
-        values[values.len() / 2]
+        let middle = values.len() / 2;
+        values.select_nth_unstable(middle).1.clone()
     };
 
     (part1, part2)

@@ -21,7 +21,7 @@ pub fn get_input_csv<T: FromStr>(input: String) -> Result<Vec<T>, T::Err> {
 
 pub fn breadth_first_search<T, F>(start: T, mut visit: F) -> HashSet<T>
     where
-        T: Hash + Eq + Copy,
+        T: Hash + Eq + Clone,
         F: FnMut(T, &mut VecDeque<T>) {
     let mut visited = HashSet::new();
     let mut queue = VecDeque::new();
@@ -30,7 +30,7 @@ pub fn breadth_first_search<T, F>(start: T, mut visit: F) -> HashSet<T>
         if visited.contains(&e) {
             continue;
         }
-        visited.insert(e);
+        visited.insert(e.clone());
         visit(e, &mut queue);
     }
 

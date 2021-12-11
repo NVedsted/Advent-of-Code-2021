@@ -8,8 +8,8 @@ fn solve(input: String) -> (i32, i32) {
     let part1 = positions.iter().map(|x| (x - median).abs())
         .sum::<i32>();
 
-    let smallest = positions.iter().min().unwrap().clone();
-    let biggest = positions.iter().max().unwrap().clone();
+    let smallest = positions.first().unwrap().clone();
+    let biggest = positions.last().unwrap().clone();
     let part2 = (smallest..=biggest)
         .map(|x| positions.iter()
             .map(|c| {
